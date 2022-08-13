@@ -1,0 +1,4 @@
+Use the shell file 'run.sh' to execute 'acctdb' and the
+'transaction_processor' because the PATH has to be set 
+to "." so the correct transaction processor is executed.
+

@@ -1,0 +1,17 @@
+HP: 12  MP: 10  sanity: 34  age: 78 
+STR  DEX  INT  CON  APP  POW  SIZ  EDU  Move Rate
+75   85   75   60   65   50   65   80   5 
+
+Skills: 
+  History:80 
+  Appraise:70 
+  Locksmith:60 
+  Op. Hv. Machine:60 
+  Spot Hidden:50 
+  Firearms(Handgun):50 
+  Law:50
+  Swim:40 
+  Language(own):20 
+  Sleight of Hand:20 
+  Ride:20 
+  Climb:20

@@ -1,0 +1,17 @@
+HP: 12  MP: 9  sanity: 32  age: 87 
+STR  DEX  INT  CON  APP  POW  SIZ  EDU  Move Rate
+50   45   65   30   50   45   90   70   2 
+
+Skills: 
+  Natural World:80 
+  Art/Craft:70 
+  Sleight of Hand:60 
+  Library Use:60 
+  Charm:50 
+  Language(own):50 
+  Psychoanalysis:50
+  First aid:40 
+  Climb:20 
+  Psychology:20 
+  Navigate:20 
+  Ride:20

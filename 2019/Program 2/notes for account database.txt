@@ -1,0 +1,6 @@
+when doing a print statement with a child remember to always follow them with \n or fflush();
+ex) printf("Hello \n");
+
+PATH =. ./acctdb newdb ../transactions
+
+execlp("child", "child", argv[1], argv[x], NULL);
