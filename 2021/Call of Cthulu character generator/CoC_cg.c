@@ -56,16 +56,16 @@ int main(int argc, char* argv[]){
 	//printf("Line 56: age: %d\n", age);
 	
 	int* stats = generate_stats();
-	for(int i = 0; i < 9; i++)
+	//for(int i = 0; i < 9; i++)
 		//printf("Line 60: stat %d: %d\n", i, *(stats + i));
 	
 	int* derived_stats = derive_stats(stats, age);
-	for(int j = 0; j < 5; j++)
+	//for(int j = 0; j < 5; j++)
 		//printf("Line 64: derived stat %d: %d\n", j, *(derived_stats + j));
 	
 	int* skills = generate_skills();
 	//printf("Line 67\n");
-	for(int k = 0; k < 12; k++)
+	//for(int k = 0; k < 12; k++)
 		//printf("skill %d: %d\n", k, *(skills + k));
 	output_character_sheet(age, stats, derived_stats, skills);
 	
