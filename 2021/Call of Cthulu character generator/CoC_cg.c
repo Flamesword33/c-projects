@@ -53,20 +53,20 @@ int main(int argc, char* argv[]){
 	srand(time(NULL));   // Initialization, should only be called once.
 	
 	int age = (rand() % 74) + 15; 
-	printf("Line 56: age: %d\n", age);
+	//printf("Line 56: age: %d\n", age);
 	
 	int* stats = generate_stats();
 	for(int i = 0; i < 9; i++)
-		printf("Line 60: stat %d: %d\n", i, *(stats + i));
+		//printf("Line 60: stat %d: %d\n", i, *(stats + i));
 	
 	int* derived_stats = derive_stats(stats, age);
 	for(int j = 0; j < 5; j++)
-		printf("Line 64: derived stat %d: %d\n", j, *(derived_stats + j));
+		//printf("Line 64: derived stat %d: %d\n", j, *(derived_stats + j));
 	
 	int* skills = generate_skills();
-	printf("Line 67\n");
+	//printf("Line 67\n");
 	for(int k = 0; k < 12; k++)
-		printf("skill %d: %d\n", k, *(skills + k));
+		//printf("skill %d: %d\n", k, *(skills + k));
 	output_character_sheet(age, stats, derived_stats, skills);
 	
 	free_pointers(stats, derived_stats, skills);
@@ -87,12 +87,12 @@ int* generate_stats(){
 	
 	for(i = 0; i < 5; i++){
 		*(stats + i) = ((rand() % 6) + (rand() % 6) + (rand() % 6) + 3) * 5; //3d6*5
-		printf("Line 90: %d: %d \n", i, stats[i]);
+		//printf("Line 90: %d: %d \n", i, stats[i]);
 	}
 	
 	for(i = 5; i < 9; i++){
 		*(stats + i) = ((rand() % 6) + (rand() % 6) + 8) * 5; //(2d6+6)*5 
-		printf("Line 95: %d: %d \n", i, stats[i]);
+		//printf("Line 95: %d: %d \n", i, stats[i]);
 	}
 	
 	return stats;
@@ -177,7 +177,7 @@ int* generate_skills(){
 	//roll a d8 and place CR accordingly?
 	//could start with a normal list of char*? 
 	int* skill_indexes;
-	printf("Line 180\n");
+	//printf("Line 180\n");
 
 	
 	skill_indexes = generate_unique_random_numbers(12, 46);
@@ -204,7 +204,7 @@ int* generate_unique_random_numbers(int number_needed, int largest_number){
 	int* list_to_return = malloc(12 * sizeof(int));
 	int h;
 	
-	printf("line 207 Check for uniqueness\n");
+	//printf("line 207 Check for uniqueness\n");
 	for(h = 0; h < number_needed; h++){
 		do{
 			temp = rand() % largest_number;
@@ -222,7 +222,7 @@ int* generate_unique_random_numbers(int number_needed, int largest_number){
 			temp == list_of_numbers[11]);
 		list_of_numbers[h] = temp;
 		*(list_to_return + h) = list_of_numbers[h];
-		printf("Line 225 %d: %d\n", h, list_of_numbers[h]);
+		//printf("Line 225 %d: %d\n", h, list_of_numbers[h]);
 
 	}//for
 									
@@ -252,7 +252,7 @@ int output_character_sheet(int age, int* stats, int* derived_stats, int* skills)
 		*(skills + 9), *(skills + 10), *(skills + 11)};
 	
 	temp = fprintf(file, "HP: %d", *(derived_stats + HP));
-	printf("Line 255 %d \n", temp);
+	//printf("Line 255 %d \n", temp);
 	fprintf(file, "  MP: %d", *(derived_stats + MP));
 	fprintf(file, "  sanity: %d", *(derived_stats + SANITY));
 	fprintf(file, "  age: %d \n", age);
@@ -269,7 +269,7 @@ int output_character_sheet(int age, int* stats, int* derived_stats, int* skills)
 	temp = fprintf(file, "\n  %s:40 \n  %s:20 \n  %s:20 \n  %s:20 \n  %s:20",
 		list_of_skills[skill_index[7]], list_of_skills[skill_index[8]], list_of_skills[skill_index[9]], list_of_skills[skill_index[10]], 
 		list_of_skills[skill_index[11]]);
-	printf("Line 272 temp:%d \n", temp);
+	//printf("Line 272 temp:%d \n", temp);
 	fclose(file);
 	
 	return 0;
@@ -277,7 +277,7 @@ int output_character_sheet(int age, int* stats, int* derived_stats, int* skills)
 
 
 void free_pointers(int* stats, int* derived_stats, int* skills){
-	printf("Line 280\n");
+	//printf("Line 280\n");
 	realloc(stats, 9 * sizeof(int));
 	realloc(derived_stats, 5 * sizeof(int));
 	realloc(skills, 12 * sizeof(int));
