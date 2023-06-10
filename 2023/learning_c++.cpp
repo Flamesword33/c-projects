@@ -23,3 +23,9 @@
 //as multiple objects can have the same function calls... ugg
 //using namespace std;
 
+//Functions//
+/*return_type function_name(parameters){}
+    in the case of main adding parameters int argc, char ** argv
+    alows us to get inputs from the command line*/
+void main(int argc, char **argv){
+}
