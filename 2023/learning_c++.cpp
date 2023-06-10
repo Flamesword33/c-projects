@@ -36,3 +36,7 @@ void main(int argc, char **argv){
     // concatination can be with + or << in c++
     std::cout << "\n Hello " + name;
 }
+
+void varibles(){
+    int x=5, y=3;  //2-4 bytes, stores whole numbers
+}
