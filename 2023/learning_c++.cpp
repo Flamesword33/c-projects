@@ -43,4 +43,5 @@ void varibles(){
     std::string work = "Lorim ibsom"; //thank you for exiting, char* alt
     char AH = 'A'; // 1 byte
     char ah = 65; //ASCII for A
+    bool isLove = true; //1 byte 0000 or 0001
 }
