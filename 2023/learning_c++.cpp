@@ -33,4 +33,6 @@ void main(int argc, char **argv){
     std::string name;
     std::cout << "Please enter your name: ";
     std::cin >> name;
+    // concatination can be with + or << in c++
+    std::cout << "\n Hello " + name;
 }
