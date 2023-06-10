@@ -40,4 +40,7 @@ void main(int argc, char **argv){
 void varibles(){
     int x=5, y=3;  //2-4 bytes, stores whole numbers
     const float pi = 3.14;  //4 bytes works to 6-7 decimal digits
+    std::string work = "Lorim ibsom"; //thank you for exiting, char* alt
+    char AH = 'A'; // 1 byte
+    char ah = 65; //ASCII for A
 }
