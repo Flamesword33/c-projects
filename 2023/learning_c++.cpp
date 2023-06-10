@@ -44,4 +44,9 @@ void varibles(){
     char AH = 'A'; // 1 byte
     char ah = 65; //ASCII for A
     bool isLove = true; //1 byte 0000 or 0001
+    double accurateFloat = 3.14; //8 bytes up to 15 decimals
+    
+    float lightSpeed = 3e8;
+    double speedLight = 3e8;
+
 }
