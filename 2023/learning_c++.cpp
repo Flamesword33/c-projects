@@ -49,4 +49,6 @@ void varibles(){
     float lightSpeed = 3e8;
     double speedLight = 3e8;
 
+    x += 5;
+    
 }
