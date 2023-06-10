@@ -16,3 +16,10 @@
 #define FALSE 0;  
 //below is a new example of simplifiying for loop construction
 #define count_to(x) for (int i=0; i<=x; i++)
+
+// This next line gives us access to the standard library
+// we can also call the object by typing std:: before  
+//it is considered bad practice to declair a namespace
+//as multiple objects can have the same function calls... ugg
+//using namespace std;
+
