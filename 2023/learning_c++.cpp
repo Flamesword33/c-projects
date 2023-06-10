@@ -28,4 +28,9 @@
     in the case of main adding parameters int argc, char ** argv
     alows us to get inputs from the command line*/
 void main(int argc, char **argv){
+    /*cin and cout are litterally c input and c output
+      both are pipleined through <<*/
+    std::string name;
+    std::cout << "Please enter your name: ";
+    std::cin >> name;
 }
