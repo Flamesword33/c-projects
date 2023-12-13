@@ -61,6 +61,8 @@ void establishPath (const toml::value& instance,
     launch(instance, instanceName, factorioInstall, modPath);
 }
 
+
+po::options_description generateLaunchOptions () {
     po::options_description generic("General Options");
     generic.add_options()
             ("help,h", "Produce help message")
@@ -94,13 +96,11 @@ void establishPath (const toml::value& instance,
     hidden.add_options()
 
             ;
-
     po::options_description cmdline_options;
     cmdline_options.add(generic).add(launcher).add(instance);
 
-    po::variables_map vm;
-    po::store(po::command_line_parser (argc, argv).options(cmdline_options).run(), vm);
-    po::notify(vm);
+    return cmdline_options;
+}
 
     if (vm.contains("help")) {
         std::cout << cmdline_options << "\n";
@@ -167,4 +167,8 @@ int main2(po::variables_map vm){
 }
 
 int main(int argc, char* argv[]) {
+    po::options_description cmdline_options = generateLaunchOptions();
+    po::variables_map vm;
+    po::store(po::command_line_parser (argc, argv).options(cmdline_options).run(), vm);
+    po::notify(vm);
 }
