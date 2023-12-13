@@ -12,15 +12,16 @@ namespace po = boost::program_options;
 namespace pr = boost::process;
 namespace fs = std::filesystem;
 
-void launch (const toml::value& instance, const std::string& instanceName, const std::string& launcherInstall, const std::string& factorioInstall) {
-    const auto& modTable = toml::find(instance, "modDir");
-    const auto isPath = toml::find<bool>(modTable, "isPath");
 
     std::string modDirectory;
     if (isPath) {
         modDirectory = toml::find<std::string>(modTable, "location");
     } else {
         modDirectory = launcherInstall + "/" + toml::find<std::string>(modTable, "location");
+int launch(const toml::value& instance, 
+            const std::string& instanceName,  
+            const std::string& factorioInstall,
+            const fs::path modPath){
     }
 
     const fs::path modPath(modDirectory);
@@ -40,6 +41,12 @@ void launch (const toml::value& instance, const std::string& instanceName, const
     if (!exists(factorioPath)) {
         std::cout << "The specified Factorio install \"" << factorioPath << "\" does not exist";
     }
+void establishPath (const toml::value& instance, 
+            const std::string& instanceName, 
+            const std::string& launcherInstall, 
+            const std::string& factorioInstall) {
+    const auto& modTable = toml::find(instance, "modDir"); //should be a string <discard_comments>
+    const bool isPath = toml::find<bool>(modTable, "isPath");
 
     const fs::path executable = factorioPath.append("bin/x64/factorio.exe");
 
@@ -49,6 +56,7 @@ void launch (const toml::value& instance, const std::string& instanceName, const
     factorio.wait();
 
     std::cout << "Instance: " << instanceName << " has terminated\n";
+    launch(instance, instanceName, factorioInstall, modPath);
 }
 
 int main(int argc, char* argv[]) {
