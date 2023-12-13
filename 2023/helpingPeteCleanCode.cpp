@@ -177,4 +177,6 @@ int main(int argc, char* argv[]) {
         std::cout << cmdline_options << "\n";
         return 1;
     }
+
+    return main2(vm);
 }
