@@ -17,10 +17,22 @@ int launch(const toml::value& instance,
             const std::string& instanceName,  
             const std::string& factorioInstall,
             const fs::path modPath){
+    
+    fs::path factorioPath(toml::find_or<std::string>(instance, "install", factorioInstall));
+    const fs::path executable = factorioPath.append("bin/x64/factorio.exe");
+    if (!exists(executable)) {
+        std::cout << "The specified Factorio install \"" << executable << "\" does not exist";
+        return 1;
     }
 
+    std::cout << "launching instance: " << instanceName << "\n";
+    pr::child factorio(executable.c_str(), "--mod-directory", modPath.c_str());
 
-    std::string factorioDirectory;
+    factorio.wait();
+
+    std::cout << "Instance: " << instanceName << " has terminated\n";
+    return 0;
+}
 
 std::string checkPath(const bool isPath, 
                     const std::string& launcherInstall, 
@@ -32,10 +44,6 @@ std::string checkPath(const bool isPath,
     }
 }
 
-    fs::path factorioPath(factorioDirectory);
-    if (!exists(factorioPath)) {
-        std::cout << "The specified Factorio install \"" << factorioPath << "\" does not exist";
-    }
 void establishPath (const toml::value& instance, 
             const std::string& instanceName, 
             const std::string& launcherInstall, 
@@ -43,19 +51,13 @@ void establishPath (const toml::value& instance,
     const auto& modTable = toml::find(instance, "modDir"); //should be a string <discard_comments>
     const bool isPath = toml::find<bool>(modTable, "isPath");
 
-    const fs::path executable = factorioPath.append("bin/x64/factorio.exe");
     const fs::path modPath(checkPath(isPath, launcherInstall, modTable));
 
-    std::cout << "launching instance: " << instanceName << "\n";
-    pr::child factorio(executable.c_str(), "--mod-directory", modPath.c_str());
-
-    factorio.wait();
     if (!exists(modPath)) {
         std::cout << "Creating directories \"" << modPath << "\n";
         fs::create_directories(modPath);
     }
 
-    std::cout << "Instance: " << instanceName << " has terminated\n";
     launch(instance, instanceName, factorioInstall, modPath);
 }
 
