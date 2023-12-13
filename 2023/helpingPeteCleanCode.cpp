@@ -144,7 +144,7 @@ int main(int argc, char* argv[]) {
     if (vm.contains("instance")) {
         if (auto instanceName = vm["instance"].as<std::string>(); instances.contains(instanceName)) {
             const auto& instTable = toml::find(instances, instanceName);
-            launch(instTable, instanceName, defaultLauncherInstall, defaultFactorioInstall);
+            establishPath(instTable, instanceName, defaultLauncherInstall, defaultFactorioInstall);
             return 0;
         } else {
             std::cout << "Could not find instance \"" << instanceName << "\"\n";
@@ -154,7 +154,7 @@ int main(int argc, char* argv[]) {
 
     if (instances.contains(defaultInstance)) {
         const auto& instTable = toml::find(instances, defaultInstance);
-        launch(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
+        establishPath(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
         return 0;
     }
 }
