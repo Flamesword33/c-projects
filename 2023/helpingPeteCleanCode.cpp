@@ -21,11 +21,16 @@ int launch(const toml::value& instance,
 
 
     std::string factorioDirectory;
+
+std::string checkPath(const bool isPath, 
+                    const std::string& launcherInstall, 
+                    const toml::value& modTable){
     if (isPath) {
-        factorioDirectory = toml::find<std::string>(instance, "install");
+        return toml::find<std::string>(modTable, "location");
     } else {
-        factorioDirectory = factorioInstall;
+        return launcherInstall + "/" + toml::find<std::string>(modTable, "location");
     }
+}
 
     fs::path factorioPath(factorioDirectory);
     if (!exists(factorioPath)) {
