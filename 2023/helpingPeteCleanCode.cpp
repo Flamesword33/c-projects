@@ -102,19 +102,25 @@ po::options_description generateLaunchOptions () {
     return cmdline_options;
 }
 
+fs::path searchingForSettings(po::variables_map vm){
     fs::path settingsFile = fs::current_path().append("settings.toml");
     if (vm.contains("settings")) {
         settingsFile = vm["settings"].as<std::string>();
     }
 
     if(!exists(settingsFile)) {
-        std::cout << "Failed to find settings file " << settingsFile << "\n";
+        throw new std::runtime_error("failed to find settings file" + settingsFile.string());
     }
-    const auto data = toml::parse(settingsFile);
-    const auto defaultFactorioInstall = toml::find<std::string>(data, "factorioInstall");
-    const auto defaultLauncherInstall = toml::find_or<std::string>(data, "launcherInstall", fs::current_path().string());
-    const auto defaultInstance = toml::find<std::string>(data, "defaultInstance");
+    return settingFile;
+}
+
 int main2(po::variables_map vm){
+    fs::path settingsFile = searchingForSettings(vm);
+
+    const toml::value data = toml::parse(settingsFile);
+    const std::string defaultFactorioInstall = toml::find<std::string>(data, "factorioInstall");
+    const std::string defaultLauncherInstall = toml::find_or<std::string>(data, "launcherInstall", fs::current_path().string());
+    const std::string defaultInstance = toml::find<std::string>(data, "defaultInstance");
 
     if (defaultFactorioInstall.empty()) {
         std::cout << "Failed to find \"factorioInstall\"\n";
