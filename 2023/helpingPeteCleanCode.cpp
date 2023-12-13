@@ -61,7 +61,6 @@ void establishPath (const toml::value& instance,
     launch(instance, instanceName, factorioInstall, modPath);
 }
 
-int main(int argc, char* argv[]) {
     po::options_description generic("General Options");
     generic.add_options()
             ("help,h", "Produce help message")
@@ -119,6 +118,7 @@ int main(int argc, char* argv[]) {
     const auto defaultFactorioInstall = toml::find<std::string>(data, "factorioInstall");
     const auto defaultLauncherInstall = toml::find_or<std::string>(data, "launcherInstall", fs::current_path().string());
     const auto defaultInstance = toml::find<std::string>(data, "defaultInstance");
+int main2(po::variables_map vm){
 
     if (defaultFactorioInstall.empty()) {
         std::cout << "Failed to find \"factorioInstall\"\n";
@@ -164,4 +164,7 @@ int main(int argc, char* argv[]) {
         establishPath(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
         return 0;
     }
+}
+
+int main(int argc, char* argv[]) {
 }
