@@ -13,22 +13,12 @@ namespace pr = boost::process;
 namespace fs = std::filesystem;
 
 
-    std::string modDirectory;
-    if (isPath) {
-        modDirectory = toml::find<std::string>(modTable, "location");
-    } else {
-        modDirectory = launcherInstall + "/" + toml::find<std::string>(modTable, "location");
 int launch(const toml::value& instance, 
             const std::string& instanceName,  
             const std::string& factorioInstall,
             const fs::path modPath){
     }
 
-    const fs::path modPath(modDirectory);
-    if (!exists(modPath)) {
-        std::cout << "Creating directories \"" << modPath << "\n";
-        fs::create_directories(modPath);
-    }
 
     std::string factorioDirectory;
     if (isPath) {
@@ -49,11 +39,16 @@ void establishPath (const toml::value& instance,
     const bool isPath = toml::find<bool>(modTable, "isPath");
 
     const fs::path executable = factorioPath.append("bin/x64/factorio.exe");
+    const fs::path modPath(checkPath(isPath, launcherInstall, modTable));
 
     std::cout << "launching instance: " << instanceName << "\n";
     pr::child factorio(executable.c_str(), "--mod-directory", modPath.c_str());
 
     factorio.wait();
+    if (!exists(modPath)) {
+        std::cout << "Creating directories \"" << modPath << "\n";
+        fs::create_directories(modPath);
+    }
 
     std::cout << "Instance: " << instanceName << " has terminated\n";
     launch(instance, instanceName, factorioInstall, modPath);
