@@ -102,10 +102,6 @@ po::options_description generateLaunchOptions () {
     return cmdline_options;
 }
 
-    if (vm.contains("help")) {
-        std::cout << cmdline_options << "\n";
-        return 1;
-    }
     fs::path settingsFile = fs::current_path().append("settings.toml");
     if (vm.contains("settings")) {
         settingsFile = vm["settings"].as<std::string>();
@@ -171,4 +167,8 @@ int main(int argc, char* argv[]) {
     po::variables_map vm;
     po::store(po::command_line_parser (argc, argv).options(cmdline_options).run(), vm);
     po::notify(vm);
+    if (vm.contains("help")) {
+        std::cout << cmdline_options << "\n";
+        return 1;
+    }
 }
