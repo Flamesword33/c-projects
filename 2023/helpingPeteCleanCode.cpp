@@ -62,46 +62,6 @@ void establishPath (const toml::value& instance,
 }
 
 
-po::options_description generateLaunchOptions () {
-    po::options_description generic("General Options");
-    generic.add_options()
-            ("help,h", "Produce help message")
-            ("version", "Print version string")
-            ;
-
-    po::options_description launcher("Launcher Options");
-    launcher.add_options()
-            ("list,l", "List instances")
-            ("instance,i", po::value<std::string>(), "Name of instance")
-            ("settings,s", po::value<std::string>(), "Path to settings file")
-            //("dump-data", "Dumps data.raw as JSON to the script output folder and exits")
-            //("dump-icon-sprites", "Dumps all icon sprites as png files to the script output folder and exits.")
-            ;
-
-    po::options_description instance("Instance Creation/Edit Options");
-    instance.add_options()
-            /*("new,n", po::value<std::string>(), "Create a new instance")
-            ("edit,e", po::value<std::string>(), "Edit existing instance")
-            ("config,c", po::value<std::string>(), "Set config file")
-            ("mods,m", po::value<std::string>(), "Set mods folder")
-            ("mp-connect", po::value<std::string>(), "Start Factorio and connect to address")
-            ("password", po::value<std::string>(), "The password to use when using mp-connect (if any)")
-            ("executable-path", po::value<std::string>(), "Override autodetected __PATH__executable. Usually not needed except on very weird systems.")
-            ("instrument-mod", po::value<std::string>(), "Name of a mod to enable Instrument Mode")
-            ("window-size", po::value<std::string>(), R"(Desired window resolution. For example "1680x1050". Or "maximized")")
-            ("low-vram", "Sprites that are not put into sprite atlases won't be allocated as texture objects")*/
-            ;
-
-    po::options_description hidden("hidden options");
-    hidden.add_options()
-
-            ;
-    po::options_description cmdline_options;
-    cmdline_options.add(generic).add(launcher).add(instance);
-
-    return cmdline_options;
-}
-
 fs::path searchingForSettings(po::variables_map vm){
     fs::path settingsFile = fs::current_path().append("settings.toml");
     if (vm.contains("settings")) {
@@ -166,6 +126,46 @@ int main2(po::variables_map vm){
         establishPath(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
         return 0;
     }
+}
+
+po::options_description generateLaunchOptions () {
+    po::options_description generic("General Options");
+    generic.add_options()
+            ("help,h", "Produce help message")
+            ("version", "Print version string")
+            ;
+
+    po::options_description launcher("Launcher Options");
+    launcher.add_options()
+            ("list,l", "List instances")
+            ("instance,i", po::value<std::string>(), "Name of instance")
+            ("settings,s", po::value<std::string>(), "Path to settings file")
+            //("dump-data", "Dumps data.raw as JSON to the script output folder and exits")
+            //("dump-icon-sprites", "Dumps all icon sprites as png files to the script output folder and exits.")
+            ;
+
+    po::options_description instance("Instance Creation/Edit Options");
+    instance.add_options()
+            /*("new,n", po::value<std::string>(), "Create a new instance")
+            ("edit,e", po::value<std::string>(), "Edit existing instance")
+            ("config,c", po::value<std::string>(), "Set config file")
+            ("mods,m", po::value<std::string>(), "Set mods folder")
+            ("mp-connect", po::value<std::string>(), "Start Factorio and connect to address")
+            ("password", po::value<std::string>(), "The password to use when using mp-connect (if any)")
+            ("executable-path", po::value<std::string>(), "Override autodetected __PATH__executable. Usually not needed except on very weird systems.")
+            ("instrument-mod", po::value<std::string>(), "Name of a mod to enable Instrument Mode")
+            ("window-size", po::value<std::string>(), R"(Desired window resolution. For example "1680x1050". Or "maximized")")
+            ("low-vram", "Sprites that are not put into sprite atlases won't be allocated as texture objects")*/
+            ;
+
+    po::options_description hidden("hidden options");
+    hidden.add_options()
+
+            ;
+    po::options_description cmdline_options;
+    cmdline_options.add(generic).add(launcher).add(instance);
+
+    return cmdline_options;
 }
 
 int main(int argc, char* argv[]) {
