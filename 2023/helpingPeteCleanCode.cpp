@@ -7,6 +7,7 @@
 #include "boost/program_options.hpp"
 #include <toml.hpp>
 
+#define NAME_OF( v ) #v
 
 namespace po = boost::program_options;
 namespace pr = boost::process;
@@ -108,6 +109,14 @@ int vmList(po::variables_map vm){
     }
 
 }
+
+void errorCheckString(std::string var, std::string name){
+    if(var.empty()){
+        cout << name << endl;
+        throw new std::runtime_error("Above variable failed to create");
+    }
+}
+
 int main2(po::variables_map vm){
     fs::path settingsFile = searchingForSettings(vm);
 
@@ -116,15 +125,8 @@ int main2(po::variables_map vm){
     const std::string defaultLauncherInstall = toml::find_or<std::string>(data, "launcherInstall", fs::current_path().string());
     const std::string defaultInstance = toml::find<std::string>(data, "defaultInstance");
 
-    if (defaultFactorioInstall.empty()) {
-        std::cout << "Failed to find \"factorioInstall\"\n";
-        return 1;
-    }
-
-    if (defaultLauncherInstall.empty()) {
-        std::cout << "Failed to find \"launcherInstall\"\n";
-        return 1;
-    }
+    errorCheckString(defaultFactorioInstall, NAME_OF(defaultFactorioInstall));
+    errorCheckString(defaultLauncherInstall, NAME_OF(defaultLauncherInstall));
 
     const auto instances = toml::find(data, "instance");
     if (!instances.is_table()) {
