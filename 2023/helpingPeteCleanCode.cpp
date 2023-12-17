@@ -92,7 +92,8 @@ int vmInstance(po::variables_map& vm,
             const std::string& defaultFactorioInstall, 
             const std::string& defaultLauncherInstall){
     if (vm.contains("instance")) {
-        if (auto instanceName = vm["instance"].as<std::string>(); instances.contains(instanceName)) {
+        auto instanceName = vm["instance"].as<std::string>(); 
+        if (instances.contains(instanceName)) {
             const auto& instTable = toml::find(instances, instanceName);
             establishPath(instTable, instanceName, defaultLauncherInstall, defaultFactorioInstall);
             return 0;
