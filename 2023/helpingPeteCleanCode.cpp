@@ -70,9 +70,10 @@ fs::path searchingForSettings(po::variables_map& vm){
     }
 
     if(!exists(settingsFile)) {
-        throw new std::runtime_error("failed to find settings file" + settingsFile.string());
+        std::cout << "Failed to find settings file " << settingsFile << "\n";
+        throw new std::runtime_error();
     }
-    return settingFile;
+    return settingsFile;
 }
 
 int vmDefaultInstance(po::variables_map& vm, 
@@ -118,8 +119,8 @@ int vmList(po::variables_map& vm, const toml::value& instances){
 
 void errorCheckString(const std::string var, const std::string name){
     if(var.empty()){
-        cout << name << endl;
-        throw new std::runtime_error("Above variable failed to create");
+        std::cout << name << " failed to create.\n";
+        throw new std::runtime_error();
     }
 }
 
@@ -142,7 +143,7 @@ int main2(po::variables_map& vm){
     }
     ////////////////////////////////////////////////////////////////////////////////////////
 
-    if (vmList(vm) == 0){
+    if (vmList(vm, instances) == 0){
         return 0;
     }
 
