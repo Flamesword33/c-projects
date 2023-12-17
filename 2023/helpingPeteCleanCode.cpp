@@ -74,6 +74,40 @@ fs::path searchingForSettings(po::variables_map vm){
     return settingFile;
 }
 
+int vmDefaultInstance(po::variables_map vm){
+    if (instances.contains(defaultInstance)) {
+        const auto& instTable = toml::find(instances, defaultInstance);
+        establishPath(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
+        return 0;
+    }
+}
+
+int vmInstance(po::variables_map vm){
+    if (vm.contains("instance")) {
+        if (auto instanceName = vm["instance"].as<std::string>(); instances.contains(instanceName)) {
+            const auto& instTable = toml::find(instances, instanceName);
+            establishPath(instTable, instanceName, defaultLauncherInstall, defaultFactorioInstall);
+            return 0;
+        } else {
+            std::cout << "Could not find instance \"" << instanceName << "\"\n";
+            return 1;
+        }
+    }
+}
+
+int vmList(po::variables_map vm){
+    if (vm.contains("list")) {
+        std::cout << "Listing instances: \n";
+        for (const auto& [fst, snd] : instances.as_table()) {
+            std::cout << fst << ":\n";
+            for (const auto& [fst2, snd2] : snd.as_table()) {
+                std::cout << "\t" <<fst2 << ": " << snd2 << "\n";
+            }
+        }
+        return 0;
+    }
+
+}
 int main2(po::variables_map vm){
     fs::path settingsFile = searchingForSettings(vm);
 
@@ -98,32 +132,17 @@ int main2(po::variables_map vm){
         return 1;
     }
 
-
-    if (vm.contains("list")) {
-        std::cout << "Listing instances: \n";
-        for (const auto& [fst, snd] : instances.as_table()) {
-            std::cout << fst << ":\n";
-            for (const auto& [fst2, snd2] : snd.as_table()) {
-                std::cout << "\t" <<fst2 << ": " << snd2 << "\n";
-            }
-        }
+    if (vmList(vm) == 0){
         return 0;
     }
 
-    if (vm.contains("instance")) {
-        if (auto instanceName = vm["instance"].as<std::string>(); instances.contains(instanceName)) {
-            const auto& instTable = toml::find(instances, instanceName);
-            establishPath(instTable, instanceName, defaultLauncherInstall, defaultFactorioInstall);
-            return 0;
-        } else {
-            std::cout << "Could not find instance \"" << instanceName << "\"\n";
-            return 1;
-        }
+
+    if(vmInstance(vm) == 0){
+        return 0;
     }
 
-    if (instances.contains(defaultInstance)) {
-        const auto& instTable = toml::find(instances, defaultInstance);
-        establishPath(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
+
+    if(vmDefaultInstance(vm) == 0){
         return 0;
     }
 }
