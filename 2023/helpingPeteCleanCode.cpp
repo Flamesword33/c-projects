@@ -128,11 +128,13 @@ int main2(po::variables_map vm){
     errorCheckString(defaultFactorioInstall, NAME_OF(defaultFactorioInstall));
     errorCheckString(defaultLauncherInstall, NAME_OF(defaultLauncherInstall));
 
+    //As Peter had moved on at this point I can no longer ask what const auto instance is
     const auto instances = toml::find(data, "instance");
     if (!instances.is_table()) {
         std::cout << "Failed to find \"instance\"\n";
         return 1;
     }
+    ////////////////////////////////////////////////////////////////////////////////////////
 
     if (vmList(vm) == 0){
         return 0;
