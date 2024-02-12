@@ -7,6 +7,7 @@
 #include "boost/program_options.hpp"
 #include <toml.hpp>
 
+#define NAME_OF( v ) #v
 
 namespace po = boost::program_options;
 namespace pr = boost::process;
@@ -16,7 +17,7 @@ namespace fs = std::filesystem;
 int launch(const toml::value& instance, 
             const std::string& instanceName,  
             const std::string& factorioInstall,
-            const fs::path modPath){
+            const fs::path& modPath){
     
     fs::path factorioPath(toml::find_or<std::string>(instance, "install", factorioInstall));
     const fs::path executable = factorioPath.append("bin/x64/factorio.exe");
@@ -62,43 +63,49 @@ void establishPath (const toml::value& instance,
 }
 
 
-fs::path searchingForSettings(po::variables_map vm){
+fs::path searchingForSettings(po::variables_map& vm){
     fs::path settingsFile = fs::current_path().append("settings.toml");
     if (vm.contains("settings")) {
         settingsFile = vm["settings"].as<std::string>();
     }
 
     if(!exists(settingsFile)) {
-        throw new std::runtime_error("failed to find settings file" + settingsFile.string());
+        std::cout << "Failed to find settings file " << settingsFile << "\n";
+        throw new std::runtime_error();
     }
-    return settingFile;
+    return settingsFile;
 }
 
-int main2(po::variables_map vm){
-    fs::path settingsFile = searchingForSettings(vm);
-
-    const toml::value data = toml::parse(settingsFile);
-    const std::string defaultFactorioInstall = toml::find<std::string>(data, "factorioInstall");
-    const std::string defaultLauncherInstall = toml::find_or<std::string>(data, "launcherInstall", fs::current_path().string());
-    const std::string defaultInstance = toml::find<std::string>(data, "defaultInstance");
-
-    if (defaultFactorioInstall.empty()) {
-        std::cout << "Failed to find \"factorioInstall\"\n";
-        return 1;
+int vmDefaultInstance(po::variables_map& vm, 
+                const toml::value& instances, 
+                const std::string& defaultInstance, 
+                const std::string& defaultFactorioInstall, 
+                const std::string& defaultLauncherInstall){
+    if (instances.contains(defaultInstance)) {
+        const auto& instTable = toml::find(instances, defaultInstance);
+        establishPath(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
+        return 0;
     }
+}
 
-    if (defaultLauncherInstall.empty()) {
-        std::cout << "Failed to find \"launcherInstall\"\n";
-        return 1;
+int vmInstance(po::variables_map& vm, 
+            const toml::value& instances, 
+            const std::string& defaultFactorioInstall, 
+            const std::string& defaultLauncherInstall){
+    if (vm.contains("instance")) {
+        auto instanceName = vm["instance"].as<std::string>(); 
+        if (instances.contains(instanceName)) {
+            const auto& instTable = toml::find(instances, instanceName);
+            establishPath(instTable, instanceName, defaultLauncherInstall, defaultFactorioInstall);
+            return 0;
+        } else {
+            std::cout << "Could not find instance \"" << instanceName << "\"\n";
+            return 1;
+        }
     }
+}
 
-    const auto instances = toml::find(data, "instance");
-    if (!instances.is_table()) {
-        std::cout << "Failed to find \"instance\"\n";
-        return 1;
-    }
-
-
+int vmList(po::variables_map& vm, const toml::value& instances){
     if (vm.contains("list")) {
         std::cout << "Listing instances: \n";
         for (const auto& [fst, snd] : instances.as_table()) {
@@ -110,20 +117,45 @@ int main2(po::variables_map vm){
         return 0;
     }
 
-    if (vm.contains("instance")) {
-        if (auto instanceName = vm["instance"].as<std::string>(); instances.contains(instanceName)) {
-            const auto& instTable = toml::find(instances, instanceName);
-            establishPath(instTable, instanceName, defaultLauncherInstall, defaultFactorioInstall);
-            return 0;
-        } else {
-            std::cout << "Could not find instance \"" << instanceName << "\"\n";
-            return 1;
-        }
+}
+
+void errorCheckString(const std::string var, const std::string name){
+    if(var.empty()){
+        std::cout << name << " failed to create.\n";
+        throw new std::runtime_error();
+    }
+}
+
+int main2(po::variables_map& vm){
+    fs::path settingsFile = searchingForSettings(vm);
+
+    const toml::value data = toml::parse(settingsFile);
+    const std::string defaultFactorioInstall = toml::find<std::string>(data, "factorioInstall");
+    const std::string defaultLauncherInstall = toml::find_or<std::string>(data, "launcherInstall", fs::current_path().string());
+    const std::string defaultInstance = toml::find<std::string>(data, "defaultInstance");
+
+    errorCheckString(defaultFactorioInstall, NAME_OF(defaultFactorioInstall));
+    errorCheckString(defaultLauncherInstall, NAME_OF(defaultLauncherInstall));
+
+    //As Peter had moved on at this point I can no longer ask what const auto instance is
+    const toml::value instances = toml::find(data, "instance");
+    if (!instances.is_table()) {
+        std::cout << "Failed to find \"instance\"\n";
+        return 1;
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    if (vmList(vm, instances) == 0){
+        return 0;
     }
 
-    if (instances.contains(defaultInstance)) {
-        const auto& instTable = toml::find(instances, defaultInstance);
-        establishPath(instTable, defaultInstance, defaultLauncherInstall, defaultFactorioInstall);
+
+    if(vmInstance(vm, instances, defaultFactorioInstall, defaultLauncherInstall) == 0){
+        return 0;
+    }
+
+
+    if(vmDefaultInstance(vm, instances, defaultInstance, defaultFactorioInstall, defaultLauncherInstall) == 0){
         return 0;
     }
 }
