@@ -1,0 +1,4 @@
+IADD:00000000:/lowerToUpper.exe
+IDSET:/lowerToUpper.exe:c0a8145e34d29013442713000
+IADD:00000001:/lowerToUpper.obj
+IDSET:/lowerToUpper.obj:c0a8145e34e29022876909000
