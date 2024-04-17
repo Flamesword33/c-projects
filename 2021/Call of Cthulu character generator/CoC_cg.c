@@ -174,14 +174,10 @@ int derive_move_rate(int strength, int dexterity, int size, int age){
  * returns a list of selected skills in order of importance from high to low
  */
 int* generate_skills(){
-	//roll a d8 and place CR accordingly?
-	//could start with a normal list of char*? 
 	int* skill_indexes;
 	//printf("Line 180\n");
 
-	
 	skill_indexes = generate_unique_random_numbers(12, 46);
-	
 	return skill_indexes;
 	
 }//generate_skills
