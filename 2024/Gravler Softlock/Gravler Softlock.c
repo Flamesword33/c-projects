@@ -1,4 +1,4 @@
-/**Austins Coding Challenge.c
+/**Gravler Softlock.c
  * by Nathan Pelletier
  * August 10, 2024
  * 
@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define Max 1000000000
 #define NumTurns 231
 
@@ -20,8 +21,9 @@ int roll(int dice){
 }
 
 int main(int argc, char* argv){
+	int program_time = time(NULL);
     int max_one_rolls = 0;
-    int current_one_rolls;
+    int current_one_rolls = 0;
     int current_roll = 0;
     int rolls;
     srand(time(NULL));
@@ -42,7 +44,9 @@ int main(int argc, char* argv){
         }
     }
 
+	program_time = time(NULL) - program_time;
     printf("Highest Ones Roll: %d \n", max_one_rolls);
-    printf("Number of Roll Sessions: %d", rolls);
+    printf("Number of Roll Sessions: %d \n", rolls);
+	printf("Program took %d seconds", program_time);
     return 0;
 }

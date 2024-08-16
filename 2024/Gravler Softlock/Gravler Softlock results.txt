@@ -1,0 +1,39 @@
+C:\Users\Nathan\Desktop>test.exe
+Highest Ones Roll: 70
+Number of Roll Sessions: 100
+Program took 0 seconds
+
+>test.exe
+Highest Ones Roll: 83
+Number of Roll Sessions: 1000
+Program took 0 seconds
+
+>test.exe
+Highest Ones Roll: 88
+Number of Roll Sessions: 10000
+Program took 0 seconds
+
+>test.exe
+Highest Ones Roll: 88
+Number of Roll Sessions: 100000
+Program took 0 seconds
+
+>test.exe
+Highest Ones Roll: 89
+Number of Roll Sessions: 1000000
+Program took 5 seconds
+
+>test.exe
+Highest Ones Roll: 89
+Number of Roll Sessions: 10000000
+Program took 48 seconds
+
+>test.exe
+Highest Ones Roll: 89
+Number of Roll Sessions: 100000000
+Program took 431 seconds
+
+>test.exe
+Highest Ones Roll: 89
+Number of Roll Sessions: 1000000000
+Program took 4366 seconds
