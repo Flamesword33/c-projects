@@ -10,23 +10,24 @@
 #define True 1
 #define False 0
 
-FILE read_file(int argc, char **argv){
-
-}//read_file
-
-FILE interpret_object_code(FILE object_code){
+char *interpret_object_code(FILE *object_code){
 
 }//interpret_object_code
 
-int output_file(FILE assembly_code){
+int output_file(char *assembly_code){
 
 }//output_file
 
 int main(int argc, char **argv){
     //welp lost the code for reading a c file with a c file... 
-    FILE object_code;
-    FILE assembly_code;
-    object_code = read_file(argc, argv);
+    FILE *object_code;
+    char *assembly_code;
+    printf("%d /n",argc);
+    if(argc < 2){
+        printf("Please enter a file name to convert./n");
+        return 1;
+    }
+    object_code = fscanf(argv[1], "r");
     assembly_code = interpret_object_code(object_code);
     output_file(assembly_code);
     return 0;
