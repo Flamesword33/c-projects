@@ -20,8 +20,8 @@ int output_file(char *assembly_code){
 
 int main(int argc, char **argv){
     //welp lost the code for reading a c file with a c file... 
-    FILE *object_code;
-    char *assembly_code;
+    FILE *object_file;
+    char object_code[100];
     printf("%d /n",argc);
     if(argc < 2){
         printf("Please enter a file name to convert./n");
