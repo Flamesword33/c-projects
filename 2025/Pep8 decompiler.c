@@ -21,6 +21,7 @@ int output_file(char *assembly_code){
 int main(int argc, char **argv){
     //welp lost the code for reading a c file with a c file... 
     FILE *object_file;
+    //may be to short if object code is on one line only
     char object_code[100];
     printf("%d /n",argc);
     if(argc < 2){
@@ -28,6 +29,10 @@ int main(int argc, char **argv){
         return 1;
     }
     object_file = fopen(argv[1], "r");
+    if(object_file == NULL){
+        printf("File failed to open./n");
+        return 1;
+    }
     while(fgets(object_code, 100, object_file)){
         interpret_object_code(object_code);
     }
