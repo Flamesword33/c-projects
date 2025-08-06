@@ -27,9 +27,11 @@ int main(int argc, char **argv){
         printf("Please enter a file name to convert./n");
         return 1;
     }
-    object_code = fscanf(argv[1], "r");
-    assembly_code = interpret_object_code(object_code);
-    output_file(assembly_code);
+    object_file = fopen(argv[1], "r");
+    while(fgets(object_code, 100, object_file)){
+        interpret_object_code(object_code);
+    }
+    fclose(object_file);
     return 0;
 }//main
 
