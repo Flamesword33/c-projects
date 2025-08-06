@@ -10,8 +10,14 @@
 #define True 1
 #define False 0
 
-char *interpret_object_code(FILE *object_code){
-
+char *interpret_object_code(char object_code[100]){
+    int i = 0;
+    char* command;
+    while(i < 100){
+        //i*2, i*2+1 to get initial digits, commands are either 00, 20 00 00 :/ swapping to while for more flexibility over for
+        command = get_command(object_code[i], object_code[i+1]);
+        i = i + 2;  //this could get dangerous, out of bounds errors are a real threat here.
+    }
 }//interpret_object_code
 
 int output_file(char *assembly_code){
