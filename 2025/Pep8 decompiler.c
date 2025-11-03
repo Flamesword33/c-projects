@@ -3,6 +3,8 @@
  * started June 4 2025
  * 
  * Takes a pepo file full of hex and translates to working assembly
+ * 
+ * I think I'm over complicating this. Gonna restart and try again. Maybe in python
  */
 #include <stdio.h>
 #include <string.h>
